@@ -1,4 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
+import  Greeting  from "~/components/Greeting";
+import React, { useState } from "react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -11,6 +13,7 @@ const GitHubLink = () => <img src="logos/github.png" alt="GitHub" width="50" />;
 const XLink = () => <img src="logos/x.png" alt="X" width="20" />;
 
 export default function Index() {
+  const [open, setOpen] = useState(true);
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 relative w-full">
       {/* Background Sketch Images */}
@@ -24,10 +27,11 @@ export default function Index() {
 
       {/* Main Content */}
       <div className="relative z-10 text-center w-full max-w-screen-xl mx-auto px-4">
-        <h1 className="text-left my-40 text-6xl lg:text-8xl font-bold text-gray-800">
-          Hi! I&#39;m <br />
-          <span className="text-pink-500">minamorl</span>!
-        </h1>
+        <Greeting
+          open={open}
+          textParts={['Hi!', "I'm", 'minamorl/不滅']}
+          className="text-gray-800"
+        />
         <h2 className="text-left text-2xl lg:text-4xl font-bold text-gray-600">
           Who are you?
         </h2>
