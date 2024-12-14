@@ -1,6 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
-import  Greeting  from "~/components/Greeting";
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
+import Greeting from "~/components/Greeting";
 
 export const meta: MetaFunction = () => {
   return [
@@ -29,7 +30,7 @@ export default function Index() {
       <div className="relative z-10 text-center w-full max-w-screen-xl mx-auto px-4">
         <Greeting
           open={open}
-          textParts={['Hi!', "I'm", 'minamorl/不滅']}
+          textParts={["Hi!", "I'm", "minamorl"]}
           className="text-gray-800"
         />
         <h2 className="text-left text-2xl lg:text-4xl font-bold text-gray-600">
@@ -38,11 +39,15 @@ export default function Index() {
 
         <div className="mt-6 space-y-4 text-left">
           <Chat>
-            <p>Hi! I'm minamorl!</p>
+            <p>
+              Hi! I'm minamorl, also known as <strong>不滅</strong>.
+            </p>
           </Chat>
           <Chat>
             <p>I'm a software engineer based in Tokyo, Japan.</p>
-            <p>I love coding, reading, and drawing.</p>
+            <p>
+              I <strong>love</strong> coding, reading, and drawing.
+            </p>
           </Chat>
           <Chat>
             <p>Here's some links for my socials:</p>
