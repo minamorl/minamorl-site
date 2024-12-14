@@ -7,38 +7,64 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-const GitHubLink = () => <img src="logos/github.png" width="50"/>
-const XLink = () => <img src="logos/x.png" width="20"/>
-
+const GitHubLink = () => <img src="logos/github.png" alt="GitHub" width="50" />;
+const XLink = () => <img src="logos/x.png" alt="X" width="20" />;
 
 export default function Index() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 relative w-full">
       {/* Background Sketch Images */}
       <div className="absolute top-0 left-0 w-full h-full">
-        <img src="background.png" alt="Background" className="w-full h-full object-cover opacity-50" />
+        <img
+          src="background.png"
+          alt="Background"
+          className="w-full h-full object-cover opacity-50"
+        />
       </div>
 
       {/* Main Content */}
       <div className="relative z-10 text-center w-full max-w-screen-xl mx-auto px-4">
         <h1 className="text-left my-40 text-6xl lg:text-8xl font-bold text-gray-800">
-          Hi! I&#39;m <br/><span className="text-pink-500">minamorl</span>!
+          Hi! I&#39;m <br />
+          <span className="text-pink-500">minamorl</span>!
         </h1>
+        <h2 className="text-left text-2xl lg:text-4xl font-bold text-gray-600">
+          Who are you?
+        </h2>
 
         <div className="mt-6 space-y-4 text-left">
-          <Chat>Hi! I'm minamorl!</Chat>
-          <Chat>This is my portfolio site. Let me explain about me...</Chat>
+          <Chat>
+            <p>Hi! I'm minamorl!</p>
+          </Chat>
+          <Chat>
+            <p>I'm a software engineer based in Tokyo, Japan.</p>
+            <p>I love coding, reading, and drawing.</p>
+          </Chat>
           <Chat>
             <p>Here's some links for my socials:</p>
             <ul className="py-4 align-baseline	">
-              <li className="m-2 h-4"><a href="https://github.com/minamorl"><GitHubLink /></a></li>
-              <li className="m-2 h-4"><a href="https://x.com/__not_exists__"><XLink /></a></li>
-              <li className="m-2 h-4 text-pink-400 hover:text-pink-600"><a href="https://note.com/fumetsusha">note</a></li>
+              <li className="m-2 h-4">
+                <a href="https://github.com/minamorl">
+                  <GitHubLink />
+                </a>
+              </li>
+              <li className="m-2 h-4">
+                <a href="https://x.com/__not_exists__">
+                  <XLink />
+                </a>
+              </li>
+              <li className="m-2 h-4 text-pink-400 hover:text-pink-600">
+                <a href="https://note.com/fumetsusha">note</a>
+              </li>
             </ul>
-            For others, check my <a href="https://lit.link/notexists" className="text-pink-400 hover:text-pink-600">litlink</a>.
-          </Chat>
-          <Chat>
-            My main career is a software engineer. <br /> I'm interested in web app development.
+            For others, check my{" "}
+            <a
+              href="https://lit.link/notexists"
+              className="text-pink-400 hover:text-pink-600"
+            >
+              litlink
+            </a>
+            .
           </Chat>
         </div>
       </div>
@@ -57,4 +83,3 @@ const Chat: React.FC<React.PropsWithChildren> = ({ children }) => (
     <div className="text-lg font-medium text-gray-700">{children}</div>
   </div>
 );
-
