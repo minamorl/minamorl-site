@@ -26,7 +26,7 @@ const Greeting: React.FC<GreetingProps> = ({
       {trail.map((style, index) =>
         index === 0 ? (
           // add break line after Hi!
-          <>
+          <div key={index}>
             <a.span
               key={index}
               style={{
@@ -39,7 +39,7 @@ const Greeting: React.FC<GreetingProps> = ({
               {textParts[index]}
             </a.span>
             <br />
-          </>
+          </div>
         ) : index !== textParts.length - 1 ? (
           <a.span
             key={index}

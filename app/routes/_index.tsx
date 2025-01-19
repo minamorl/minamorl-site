@@ -90,11 +90,6 @@ export default function Index() {
                   <GitHubLink />
                 </a>
               </li>
-              <li className="m-2 h-4">
-                <a href="https://x.com/__not_exists__">
-                  <XLink />
-                </a>
-              </li>
               <li className="m-2 h-4 text-pink-400 hover:text-pink-600">
                 <a href="https://note.com/fumetsusha">note</a>
               </li>
