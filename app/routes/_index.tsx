@@ -11,7 +11,8 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-const GitHubLink = () => <img src="logos/github.png" alt="GitHub" width="50" />;
+const GitHubLink = () => <img src="logos/github.png" alt="GitHub" width="70" />;
+const LinkedinLink = () => <img src="/svg/linkedin.svg" alt="LinkedIn Icon" width="70" />;
 
 
 export default function Index() {
@@ -45,20 +46,23 @@ export default function Index() {
             </p>
           </Chat>
           <Chat>
-            <p>I'm a software engineer based in Tokyo, Japan.</p>
+            <p>I&apos;m a software engineer based in Tokyo, Japan.</p>
             <p>
               I <strong>love</strong> coding, reading, and drawing.
             </p>
           </Chat>
           <Chat>
-            <p>Here's some links for my socials:</p>
-            <ul className="py-4 align-baseline	">
-              <li className="m-2 h-4">
-                <a href="https://github.com/minamorl">
-                  <GitHubLink />
+            <p>Here&apos;s some links for my socials:</p>
+                <div className="my-1">
+                  <a href="https://github.com/minamorl" className="m-4">
+                    <GitHubLink />
+                  </a>
+                </div>
+                <div className="my-1">
+                  <a href="https://www.linkedin.com/in/shuji-iwata-3110b235a/">
+                  <LinkedinLink />
                 </a>
-              </li>
-            </ul>
+              </div>
           </Chat>
         <JobHistory />
         </div>
