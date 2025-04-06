@@ -1,22 +1,9 @@
+import JobHistoryTitle from './JobHistory/JobHistoryTitle';
+import JobHistoryList from './JobHistory/JobHistoryList';
+import JobHistoryUnit from './JobHistory/JobHistoryUnit';
 
 import { Link } from "@remix-run/react";
 import type React from "react";
-export const JobHistoryUnit: React.FC<React.PropsWithChildren> = ({ children }) => (
-      <div className="border-2 flex flex-col space-y-2 rounded-xl bg-white px-4 py-4">
-        {children}
-      </div>
-    )
-
-export const JobHistoryList: React.FC<React.PropsWithChildren> = ({children}) =>(
-        <ul className="list-disc ml-8 text-gray-700">
-        {children}
-        </ul>
-)
-export const JobHistoryTitle: React.FC<React.PropsWithChildren> = ({children}) => (
-  <h3 className="text-xl font-semibold text-gray-800">
-    {children}
-  </h3>
-)
 const JobHistory = () => (
   <div className="relative z-10 text-left w-full max-w-screen-xl mx-auto px-4 my-8">
     <h2 className="text-2xl lg:text-4xl font-bold text-gray-600">Professional Experience</h2>
