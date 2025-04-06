@@ -45,8 +45,18 @@ for (const comp of components) {
   const outputPath = flatten
     ? path.join(outdir, filename)
     : path.join(outdir, fileDirName, parentComponentName, filename);
-
-  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+  
+  const dirPath = path.dirname(outputPath);
+  
+  if (fs.existsSync(dirPath)) {
+    const stat = fs.statSync(dirPath);
+    if (!stat.isDirectory()) {
+      console.error(`❌ Cannot create directory ${dirPath} because a file with the same name exists.`);
+      process.exit(1);
+    }
+  } else {
+    fs.mkdirSync(dirPath, { recursive: true });
+  }
 
   const content = `import React from 'react';\n\n${comp.getText()}\n\nexport default ${name};\n`;
   fs.writeFileSync(outputPath, content);
