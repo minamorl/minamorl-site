@@ -12,7 +12,7 @@ const JobHistory = () => (
         <JobHistoryTitle>
           <Link 
             to={'https://axianext.io/'} 
-            className="transition-all duration-200 ease-out hover:text-pink-600 hover:scale-[1.02] inline-block"
+            className="transition-all duration-200 ease-out hover:text-pink-600 hover:scale-[1.02] inline-block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400 focus-visible:ring-offset-2 rounded-sm"
           >
             axianext
           </Link>

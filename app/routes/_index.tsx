@@ -63,6 +63,13 @@ export default function Index() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 relative w-full">
+      {/* Skip to main content link for accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-pink-500 text-white px-4 py-2 rounded-md z-50 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400 focus-visible:ring-offset-2"
+      >
+        Skip to main content
+      </a>
       {/* Background Sketch Images */}
       <div className="absolute top-0 left-0 w-full h-full">
         <img
@@ -73,7 +80,7 @@ export default function Index() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 w-full max-w-screen-xl mx-auto px-4 text-left">
+      <div id="main-content" className="relative z-10 w-full max-w-screen-xl mx-auto px-4 text-left">
         <section className="flex min-h-[60vh] flex-col items-start justify-center py-24">
           <a.h1
             style={headingSpring}
