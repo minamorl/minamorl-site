@@ -1,9 +1,9 @@
 import type { MetaFunction } from "@remix-run/node";
-import SkipToContent from "~/components/layout/SkipToContent";
 import BackgroundImage from "~/components/layout/BackgroundImage";
 import Footer from "~/components/layout/Footer";
-import HeroSection from "~/components/sections/HeroSection";
+import SkipToContent from "~/components/layout/SkipToContent";
 import AboutSection from "~/components/sections/AboutSection";
+import HeroSection from "~/components/sections/HeroSection";
 
 export const meta: MetaFunction = () => {
   return [

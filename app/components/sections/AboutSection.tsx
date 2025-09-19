@@ -1,7 +1,7 @@
 import type React from "react";
+import JobHistory from "~/components/JobHistory";
 import Chat from "~/components/ui/Chat";
 import SocialLinks from "~/components/ui/SocialLinks";
-import JobHistory from "~/components/JobHistory";
 
 const AboutSection: React.FC = () => (
   <>
