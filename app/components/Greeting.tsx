@@ -23,12 +23,13 @@ const Greeting: React.FC<GreetingProps> = ({
     <h1
       className={`text-left text-6xl lg:text-8xl font-bold ${className} py-20`}
     >
-      {trail.map((style, index) =>
-        index === 0 ? (
+      {trail.map((style, index) => {
+        const key = `text-part-${textParts[index]}-${index}`;
+        return index === 0 ? (
           // add break line after Hi!
-          <div key={index}>
+          <div key={key}>
             <a.span
-              key={index}
+              key={`${key}-span`}
               style={{
                 ...style,
                 transform: style.x.to((x) => `translate3d(0,${x}px,0)`),
@@ -42,7 +43,7 @@ const Greeting: React.FC<GreetingProps> = ({
           </div>
         ) : index !== textParts.length - 1 ? (
           <a.span
-            key={index}
+            key={key}
             style={{
               ...style,
               transform: style.x.to((x) => `translate3d(0,${x}px,0)`),
@@ -54,7 +55,7 @@ const Greeting: React.FC<GreetingProps> = ({
           </a.span>
         ) : (
           <a.span
-            key={index}
+            key={key}
             style={{
               ...style,
               transform: style.x.to((x) => `translate3d(0,${x}px,0)`),
@@ -64,8 +65,8 @@ const Greeting: React.FC<GreetingProps> = ({
           >
             {textParts[index]}
           </a.span>
-        ),
-      )}
+        );
+      })}
     </h1>
   );
 };

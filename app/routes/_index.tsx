@@ -1,7 +1,7 @@
+import { a, useSpring } from "@react-spring/web";
 import type { MetaFunction } from "@remix-run/node";
 import type React from "react";
 import { useCallback } from "react";
-import { a, useSpring } from "@react-spring/web";
 import JobHistory from "~/components/JobHistory";
 
 export const meta: MetaFunction = () => {
@@ -12,8 +12,9 @@ export const meta: MetaFunction = () => {
 };
 
 const GitHubLink = () => <img src="logos/github.png" alt="GitHub" width="70" />;
-const LinkedinLink = () => <img src="/svg/linkedin.svg" alt="LinkedIn Icon" width="70" />;
-
+const LinkedinLink = () => (
+  <img src="/svg/linkedin.svg" alt="LinkedIn Icon" width="70" />
+);
 
 export default function Index() {
   const headingSpring = useSpring({
@@ -80,7 +81,10 @@ export default function Index() {
       </div>
 
       {/* Main Content */}
-      <div id="main-content" className="relative z-10 w-full max-w-screen-xl mx-auto px-4 text-left">
+      <div
+        id="main-content"
+        className="relative z-10 w-full max-w-screen-xl mx-auto px-4 text-left"
+      >
         <section className="flex min-h-[60vh] flex-col items-start justify-center py-24">
           <a.h1
             style={headingSpring}
@@ -95,24 +99,27 @@ export default function Index() {
             Tokyo-based software engineer crafting humane products with playful
             interactions, well-tested systems, and delightful art direction.
           </a.p>
-          <a.a
+          <a.button
             style={ctaSpring}
-            href="#about"
+            type="button"
             className="mt-10 inline-flex items-center gap-3 rounded-full bg-pink-500 px-8 py-3 text-base font-semibold text-white shadow-lg shadow-pink-500/30 transition-all duration-300 ease-out hover:bg-pink-600 hover:scale-105 hover:shadow-xl hover:shadow-pink-500/40 active:scale-95 active:duration-75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400 focus-visible:ring-offset-2 group"
-            onClick={handleCtaClick}
+            onClick={() => {
+              handleCtaClick();
+              document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+            }}
           >
             Let&apos;s work together
-            <span 
-              aria-hidden 
+            <span
+              aria-hidden
               className="transition-transform duration-300 ease-out group-hover:translate-x-1"
             >
               {">"}
             </span>
-          </a.a>
+          </a.button>
         </section>
 
-        <h2 
-          id="about" 
+        <h2
+          id="about"
           className="text-left text-2xl lg:text-4xl font-bold text-gray-600 transition-colors duration-300 ease-out hover:text-gray-800"
         >
           Who are you?
@@ -120,9 +127,7 @@ export default function Index() {
 
         <div className="mt-6 space-y-4 text-left">
           <Chat>
-            <p>
-              Hi! I&apos;m Shuji Iwata, also known as @minamorl.
-            </p>
+            <p>Hi! I&apos;m Shuji Iwata, also known as @minamorl.</p>
           </Chat>
           <Chat>
             <p>I&apos;m a software engineer based in Tokyo, Japan.</p>
@@ -132,16 +137,16 @@ export default function Index() {
           </Chat>
           <Chat>
             <p>Here&apos;s some links for my socials:</p>
-                <div className="my-1">
-                  <a href="https://github.com/minamorl" className="m-4">
-                    <GitHubLink />
-                  </a>
-                </div>
-                <div className="my-1">
-                  <a href="https://www.linkedin.com/in/shuji-iwata-3110b235a/">
-                  <LinkedinLink />
-                </a>
-              </div>
+            <div className="my-1">
+              <a href="https://github.com/minamorl" className="m-4">
+                <GitHubLink />
+              </a>
+            </div>
+            <div className="my-1">
+              <a href="https://www.linkedin.com/in/shuji-iwata-3110b235a/">
+                <LinkedinLink />
+              </a>
+            </div>
           </Chat>
           <JobHistory />
         </div>
