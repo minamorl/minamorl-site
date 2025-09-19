@@ -111,7 +111,10 @@ export default function Index() {
           </a.a>
         </section>
 
-        <h2 id="about" className="text-left text-2xl lg:text-4xl font-bold text-gray-600">
+        <h2 
+          id="about" 
+          className="text-left text-2xl lg:text-4xl font-bold text-gray-600 transition-colors duration-300 ease-out hover:text-gray-800"
+        >
           Who are you?
         </h2>
 

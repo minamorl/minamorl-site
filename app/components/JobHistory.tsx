@@ -6,7 +6,9 @@ import { Link } from "@remix-run/react";
 
 const JobHistory = () => (
   <div className="relative z-10 text-left w-full max-w-screen-xl mx-auto px-4 my-8">
-    <h2 className="text-2xl lg:text-4xl font-bold text-gray-600">Professional Experience</h2>
+    <h2 className="text-2xl lg:text-4xl font-bold text-gray-600 transition-colors duration-300 ease-out hover:text-gray-800">
+      Professional Experience
+    </h2>
     <div className="mt-6 space-y-4">
       <JobHistoryUnit>
         <JobHistoryTitle>
