@@ -9,7 +9,14 @@ const JobHistory = () => (
     <h2 className="text-2xl lg:text-4xl font-bold text-gray-600">Professional Experience</h2>
     <div className="mt-6 space-y-4">
       <JobHistoryUnit>
-        <JobHistoryTitle><Link to={'https://axianext.io/'}>axianext</Link></JobHistoryTitle>
+        <JobHistoryTitle>
+          <Link 
+            to={'https://axianext.io/'} 
+            className="transition-all duration-200 ease-out hover:text-pink-600 hover:scale-[1.02] inline-block"
+          >
+            axianext
+          </Link>
+        </JobHistoryTitle>
         <p className="text-gray-700">
           <strong>Role:</strong> Tech Lead / Organizer<br />
           <strong>Duration:</strong> May 2025 - <br />
@@ -22,7 +29,11 @@ const JobHistory = () => (
         </JobHistoryList>
       </JobHistoryUnit>
       <JobHistoryUnit>
-        <JobHistoryTitle>合同会社Trishula</JobHistoryTitle>
+        <JobHistoryTitle>
+          <span className="transition-colors duration-200 ease-out hover:text-pink-600">
+            合同会社Trishula
+          </span>
+        </JobHistoryTitle>
         <p className="text-gray-700">
           <strong>Role:</strong> CTO<br />
           <strong>Duration:</strong> September 2021 - January 2023<br />
@@ -35,7 +46,11 @@ const JobHistory = () => (
         </JobHistoryList>
       </JobHistoryUnit>
       <JobHistoryUnit>
-        <JobHistoryTitle>株式会社クラスドゥ</JobHistoryTitle>
+        <JobHistoryTitle>
+          <span className="transition-colors duration-200 ease-out hover:text-pink-600">
+            株式会社クラスドゥ
+          </span>
+        </JobHistoryTitle>
         <p className="text-gray-700">
           <strong>Role:</strong> Full-stack Engineer &amp; Data Scientist<br />
           <strong>Duration:</strong> September 2020 - September 2021<br />
