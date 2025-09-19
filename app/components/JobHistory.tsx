@@ -3,7 +3,7 @@ import JobHistoryList from './JobHistory/JobHistoryList';
 import JobHistoryUnit from './JobHistory/JobHistoryUnit';
 
 import { Link } from "@remix-run/react";
-import type React from "react";
+
 const JobHistory = () => (
   <div className="relative z-10 text-left w-full max-w-screen-xl mx-auto px-4 my-8">
     <h2 className="text-2xl lg:text-4xl font-bold text-gray-600">Professional Experience</h2>
