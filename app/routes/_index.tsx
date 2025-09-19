@@ -105,7 +105,9 @@ export default function Index() {
             className="mt-10 inline-flex items-center gap-3 rounded-full bg-pink-500 px-8 py-3 text-base font-semibold text-white shadow-lg shadow-pink-500/30 transition-all duration-300 ease-out hover:bg-pink-600 hover:scale-105 hover:shadow-xl hover:shadow-pink-500/40 active:scale-95 active:duration-75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400 focus-visible:ring-offset-2 group"
             onClick={() => {
               handleCtaClick();
-              document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+              document
+                .getElementById("about")
+                ?.scrollIntoView({ behavior: "smooth" });
             }}
           >
             Let&apos;s work together
