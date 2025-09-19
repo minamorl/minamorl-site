@@ -1,6 +1,6 @@
-import JobHistoryTitle from './JobHistory/JobHistoryTitle';
-import JobHistoryList from './JobHistory/JobHistoryList';
-import JobHistoryUnit from './JobHistory/JobHistoryUnit';
+import JobHistoryList from "./JobHistory/JobHistoryList";
+import JobHistoryTitle from "./JobHistory/JobHistoryTitle";
+import JobHistoryUnit from "./JobHistory/JobHistoryUnit";
 
 import { Link } from "@remix-run/react";
 
@@ -12,21 +12,25 @@ const JobHistory = () => (
     <div className="mt-6 space-y-4">
       <JobHistoryUnit>
         <JobHistoryTitle>
-          <Link 
-            to={'https://axianext.io/'} 
+          <Link
+            to={"https://axianext.io/"}
             className="transition-all duration-200 ease-out hover:text-pink-600 hover:scale-[1.02] inline-block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400 focus-visible:ring-offset-2 rounded-sm"
           >
             axianext
           </Link>
         </JobHistoryTitle>
         <p className="text-gray-700">
-          <strong>Role:</strong> Tech Lead / Organizer<br />
+          <strong>Role:</strong> Tech Lead / Organizer
+          <br />
           <strong>Duration:</strong> May 2025 - <br />
           <strong>Key Achievements:</strong>
         </p>
         <JobHistoryList>
           <li>Led the development of the global team axianext</li>
-          <li>Designed all workflows, including schedule managiment, an issue tracker, etc.</li>
+          <li>
+            Designed all workflows, including schedule managiment, an issue
+            tracker, etc.
+          </li>
           <li>Making a crawler system</li>
         </JobHistoryList>
       </JobHistoryUnit>
@@ -37,8 +41,10 @@ const JobHistory = () => (
           </span>
         </JobHistoryTitle>
         <p className="text-gray-700">
-          <strong>Role:</strong> CTO<br />
-          <strong>Duration:</strong> September 2021 - January 2023<br />
+          <strong>Role:</strong> CTO
+          <br />
+          <strong>Duration:</strong> September 2021 - January 2023
+          <br />
           <strong>Key Achievements:</strong>
         </p>
         <JobHistoryList>
@@ -54,12 +60,16 @@ const JobHistory = () => (
           </span>
         </JobHistoryTitle>
         <p className="text-gray-700">
-          <strong>Role:</strong> Full-stack Engineer &amp; Data Scientist<br />
-          <strong>Duration:</strong> September 2020 - September 2021<br />
+          <strong>Role:</strong> Full-stack Engineer &amp; Data Scientist
+          <br />
+          <strong>Duration:</strong> September 2020 - September 2021
+          <br />
           <strong>Key Achievements:</strong>
         </p>
         <JobHistoryList>
-          <li>Enhanced canvas rendering and stroke prediction in the frontend.</li>
+          <li>
+            Enhanced canvas rendering and stroke prediction in the frontend.
+          </li>
           <li>Improved PDF export processes for better efficiency.</li>
         </JobHistoryList>
       </JobHistoryUnit>
