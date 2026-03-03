@@ -20,7 +20,7 @@ export default function GenesisCanvas({ progress }: GenesisCanvasProps) {
   return (
     <div ref={containerRef} className="absolute inset-0 w-full h-full">
       <Canvas
-        camera={{ position: [0, 0, 12], fov: 75 }}
+        camera={{ position: [0, 0, 30], fov: 45 }}
         dpr={[1, 2]}
         gl={{
           antialias: false,

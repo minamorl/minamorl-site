@@ -134,11 +134,11 @@ function generateMeshTopology(maxTriangles: number, seed: number = 42) {
   const triangles: [number, number, number][] = [];
   const rand = createRng(seed);
 
-  // Seed triangle (equilateral, centered)
+  // Seed triangle (equilateral, with z-depth)
   const r0 = 1.2;
-  vertices.push([0, r0, 0]);
-  vertices.push([-r0 * 0.866, -r0 * 0.5, 0]);
-  vertices.push([r0 * 0.866, -r0 * 0.5, 0]);
+  vertices.push([0, r0, 0.5]);
+  vertices.push([-r0 * 0.866, -r0 * 0.5, -0.3]);
+  vertices.push([r0 * 0.866, -r0 * 0.5, -0.2]);
   triangles.push([0, 1, 2]);
 
   for (let i = 1; i < maxTriangles; i++) {
@@ -159,13 +159,14 @@ function generateMeshTopology(maxTriangles: number, seed: number = 42) {
     const nx = -dy / len;
     const ny = dx / len;
 
-    const push = 0.4 + rand() * 0.8;
-    const drip = -rand() * 0.35; // gravity-like downward z-drip
+    const push = 0.6 + rand() * 1.2;
+    const zSpread = (rand() - 0.5) * 2.5; // ±2.5 in z for real 3D depth
+    const drip = -rand() * 0.5; // gravity still pulls down
 
     const newVert: [number, number, number] = [
-      mx + nx * push + (rand() - 0.5) * 0.3,
-      my + ny * push + (rand() - 0.5) * 0.3,
-      mz + drip,
+      mx + nx * push + (rand() - 0.5) * 0.5,
+      my + ny * push + (rand() - 0.5) * 0.5,
+      mz + zSpread + drip,
     ];
 
     vertices.push(newVert);
@@ -173,6 +174,233 @@ function generateMeshTopology(maxTriangles: number, seed: number = 42) {
   }
 
   return { vertices, triangles };
+}
+
+// ─── Bezier interpolation ───────────────────────────────────────────────────
+
+function bezierPoint(points: THREE.Vector3[], t: number): THREE.Vector3 {
+  if (points.length === 1) return points[0].clone();
+  const newPoints: THREE.Vector3[] = [];
+  for (let i = 0; i < points.length - 1; i++) {
+    newPoints.push(new THREE.Vector3().lerpVectors(points[i], points[i + 1], t));
+  }
+  return bezierPoint(newPoints, t);
+}
+
+// ─── CameraRig ──────────────────────────────────────────────────────────────
+
+function CameraRig({ progress }: { progress: React.MutableRefObject<number> }) {
+  const { camera } = useThree();
+
+  // Spring state refs (mutable, no re-render)
+  const currentCamPos = useRef(new THREE.Vector3(0, 0, 30));
+  const currentCamTarget = useRef(new THREE.Vector3(0, 0, 0));
+  const currentFov = useRef(45);
+  const currentRoll = useRef(0);
+
+  const velPos = useRef(new THREE.Vector3(0, 0, 0));
+  const velTarget = useRef(new THREE.Vector3(0, 0, 0));
+  const velFov = useRef(0);
+  const velRoll = useRef(0);
+
+  const prevProgressRef = useRef(0);
+
+  // Pre-allocate flight path control points
+  const flightPath = useMemo(
+    () => [
+      new THREE.Vector3(3, -2, 8),
+      new THREE.Vector3(6, 1, 5),
+      new THREE.Vector3(2, 4, 3),
+      new THREE.Vector3(-3, 2, 6),
+      new THREE.Vector3(-1, 0, 8),
+    ],
+    []
+  );
+
+  // Seeded shake RNG
+  const shakeRng = useMemo(() => createRng(7777), []);
+
+  useFrame((state, delta) => {
+    const p = progress.current;
+    const dt = Math.min(delta, 0.05);
+    const time = state.clock.elapsedTime;
+
+    const prevP = prevProgressRef.current;
+    prevProgressRef.current = p;
+
+    // ── Compute target camera state based on progress ─────────────────────
+
+    let targetPos = new THREE.Vector3(0, 0, 30);
+    let targetLookAt = new THREE.Vector3(0, 0, 0);
+    let targetFov = 45;
+    let targetRoll = 0;
+    let stiffness = 3.0;
+    let damping = 0.88;
+
+    if (p < P.DOT_ONE_START) {
+      // Phase 1: BLACK → DOT — far away in darkness
+      targetPos.set(0, 0, 30);
+      targetFov = 45;
+      stiffness = 2.0;
+      damping = 0.92;
+    } else if (p < P.DOT_TWO_START) {
+      // Phase 2: DOT ONE — camera pulls in
+      const t = smoothstep(P.DOT_ONE_START, P.DOT_TWO_START, p);
+      targetPos.set(0, 0, THREE.MathUtils.lerp(18, 14, t));
+      targetFov = THREE.MathUtils.lerp(50, 60, t);
+      stiffness = 3.0;
+      damping = 0.88;
+    } else if (p < P.TRIANGLE_SNAP) {
+      // Phase 3: DOT TWO → TRIANGLE SNAP — camera swoops down and to side
+      const t = smoothstep(P.DOT_TWO_START, P.TRIANGLE_SNAP, p);
+      targetPos.set(
+        THREE.MathUtils.lerp(0, 2, t),
+        THREE.MathUtils.lerp(0, -1, t),
+        THREE.MathUtils.lerp(14, 10, t)
+      );
+      targetFov = THREE.MathUtils.lerp(60, 65, t);
+      stiffness = 3.5;
+      damping = 0.86;
+    } else if (p < P.MESH_GROW_END) {
+      // Phase 4: MESH GROWTH — fly-through 3D space (KEY PHASE)
+      const meshT = smoothstep(P.TRIANGLE_SNAP, P.MESH_GROW_END, p);
+
+      // At the very start of this phase (snap moment), use high stiffness
+      if (p < P.TRIANGLE_SNAP + 0.02) {
+        stiffness = 40.0;
+        damping = 0.7;
+      } else {
+        stiffness = 2.5;
+        damping = 0.90;
+      }
+
+      // Fly-through along bezier path
+      const pathPos = bezierPoint(flightPath, meshT);
+      targetPos.copy(pathPos);
+
+      // FOV widens dramatically for strong perspective
+      targetFov = THREE.MathUtils.lerp(70, 88, Math.sin(meshT * Math.PI));
+
+      // Camera roll for immersion: subtle oscillation
+      targetRoll = Math.sin(meshT * Math.PI * 2.5) * 0.06;
+
+      // LookAt leads slightly ahead of the flight path
+      const lookAheadT = Math.min(1, meshT + 0.08);
+      const lookAheadPos = bezierPoint(flightPath, lookAheadT);
+      // Blend between origin and look-ahead direction
+      const lookBlend = smoothstep(0, 0.15, meshT) * (1 - smoothstep(0.85, 1.0, meshT));
+      targetLookAt.set(
+        THREE.MathUtils.lerp(0, lookAheadPos.x * 0.3, lookBlend),
+        THREE.MathUtils.lerp(0, lookAheadPos.y * 0.3, lookBlend),
+        THREE.MathUtils.lerp(0, lookAheadPos.z * 0.2, lookBlend)
+      );
+
+      // Subtle camera shake during mesh growth
+      const shakeIntensity = 0.04 * Math.sin(meshT * Math.PI); // peaks in middle
+      targetPos.x += Math.sin(time * 17.3) * shakeIntensity;
+      targetPos.y += Math.cos(time * 13.7) * shakeIntensity;
+      targetPos.z += Math.sin(time * 11.1) * shakeIntensity * 0.5;
+    } else if (p < P.LOGO_MORPH_END) {
+      // Phase 5: LOGO MORPH — pull back to front-facing
+      const t = smoothstep(P.MESH_GROW_END, P.LOGO_MORPH_END, p);
+      const tEased = easeOutExpo(t);
+
+      // Smoothly return from last flight path point to front view
+      const lastFlightPos = flightPath[flightPath.length - 1];
+      targetPos.set(
+        THREE.MathUtils.lerp(lastFlightPos.x, 0, tEased),
+        THREE.MathUtils.lerp(lastFlightPos.y, 0, tEased),
+        THREE.MathUtils.lerp(lastFlightPos.z, 12, tEased)
+      );
+      targetFov = THREE.MathUtils.lerp(80, 75, tEased);
+      targetRoll = THREE.MathUtils.lerp(0.04, 0, tEased); // return roll to 0
+      targetLookAt.set(0, 0, 0);
+      stiffness = 3.0;
+      damping = 0.88;
+    } else if (p < P.FLOAT_END) {
+      // Phase 6: FLOAT — gentle breathing oscillation
+      const breatheT = smoothstep(P.LOGO_MORPH_END, P.FLOAT_END, p);
+      targetPos.set(
+        Math.sin(time * 0.25) * 0.15,
+        Math.cos(time * 0.18) * 0.1,
+        12 + Math.sin(time * 0.3) * 0.08
+      );
+      targetFov = 75;
+      targetLookAt.set(0, 0, 0);
+      stiffness = 1.5;
+      damping = 0.93;
+    } else {
+      // Phase 7: COLLAPSE → BLACK — dolly into singularity
+      const t = smoothstep(P.FLOAT_END, P.BLACK_END - 0.03, p);
+      const tEased = easeInQuad(t);
+      targetPos.set(0, 0, THREE.MathUtils.lerp(12, 2, tEased));
+      targetFov = THREE.MathUtils.lerp(75, 120, tEased); // vertigo dolly-zoom
+      targetLookAt.set(0, 0, THREE.MathUtils.lerp(0, -5, tEased));
+      stiffness = 3.0;
+      damping = 0.85;
+    }
+
+    // ── Apply spring physics to camera position ───────────────────────────
+
+    const forcePos = new THREE.Vector3(
+      (targetPos.x - currentCamPos.current.x) * stiffness,
+      (targetPos.y - currentCamPos.current.y) * stiffness,
+      (targetPos.z - currentCamPos.current.z) * stiffness
+    );
+    velPos.current.multiplyScalar(damping).add(forcePos.multiplyScalar(dt));
+    currentCamPos.current.add(velPos.current.clone().multiplyScalar(dt));
+
+    // Spring physics for lookAt target
+    const forceLook = new THREE.Vector3(
+      (targetLookAt.x - currentCamTarget.current.x) * stiffness,
+      (targetLookAt.y - currentCamTarget.current.y) * stiffness,
+      (targetLookAt.z - currentCamTarget.current.z) * stiffness
+    );
+    velTarget.current.multiplyScalar(damping).add(forceLook.multiplyScalar(dt));
+    currentCamTarget.current.add(velTarget.current.clone().multiplyScalar(dt));
+
+    // Spring physics for FOV
+    const forceFov = (targetFov - currentFov.current) * stiffness;
+    velFov.current = velFov.current * damping + forceFov * dt;
+    currentFov.current += velFov.current * dt;
+
+    // Spring physics for roll
+    const forceRoll = (targetRoll - currentRoll.current) * stiffness;
+    velRoll.current = velRoll.current * damping + forceRoll * dt;
+    currentRoll.current += velRoll.current * dt;
+
+    // ── Handle triangle snap — teleport camera for instant feel ───────────
+
+    if (prevP < P.TRIANGLE_SNAP && p >= P.TRIANGLE_SNAP) {
+      currentCamPos.current.set(3, -2, 8);
+      velPos.current.set(0, 0, 0);
+      currentCamTarget.current.set(0, 0, 0);
+      velTarget.current.set(0, 0, 0);
+      currentFov.current = 70;
+      velFov.current = 0;
+      currentRoll.current = 0;
+      velRoll.current = 0;
+    }
+
+    // ── Apply to THREE.js camera ──────────────────────────────────────────
+
+    camera.position.copy(currentCamPos.current);
+    camera.lookAt(currentCamTarget.current);
+
+    // Apply roll (rotation around the camera's local z-axis, AFTER lookAt)
+    if (Math.abs(currentRoll.current) > 0.0001) {
+      camera.rotateZ(currentRoll.current);
+    }
+
+    // Apply FOV
+    const perspCam = camera as THREE.PerspectiveCamera;
+    if (Math.abs(perspCam.fov - currentFov.current) > 0.01) {
+      perspCam.fov = currentFov.current;
+      perspCam.updateProjectionMatrix();
+    }
+  });
+
+  return null;
 }
 
 // ─── Component ──────────────────────────────────────────────────────────────
@@ -661,6 +889,9 @@ export default function GenesisScene({
 
   return (
     <group>
+      {/* Camera animation rig */}
+      <CameraRig progress={progress} />
+
       {/* Particles */}
       <points ref={pointsRef}>
         <bufferGeometry>
