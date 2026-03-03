@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "minamorl — Software Engineer",
-  description: "Tokyo-based software engineer. Building developer tools, infrastructure, and web platforms.",
+  title: "minamorl",
+  description: "Software Engineer — Tokyo, Japan",
   openGraph: {
     title: "minamorl",
     description: "Software Engineer — Tokyo, Japan",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0a0a0a",
+  themeColor: "#000000",
 };
 
 export default function RootLayout({
@@ -30,9 +30,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-[#0a0a0a] text-gray-100 antialiased">
-        {children}
-      </body>
+      <body className="bg-black text-white antialiased">{children}</body>
     </html>
   );
 }
