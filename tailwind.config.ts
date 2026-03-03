@@ -1,7 +1,8 @@
 import type { Config } from "tailwindcss";
 
 export default {
-  content: ["./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx,mdx}"],
+  darkMode: "class",
   theme: {
     extend: {
       fontFamily: {
@@ -9,12 +10,31 @@ export default {
           "Inter",
           "ui-sans-serif",
           "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica Neue",
+          "Arial",
           "sans-serif",
-          "Apple Color Emoji",
-          "Segoe UI Emoji",
-          "Segoe UI Symbol",
-          "Noto Color Emoji",
         ],
+        mono: [
+          "JetBrains Mono",
+          "Fira Code",
+          "ui-monospace",
+          "SFMono-Regular",
+          "monospace",
+        ],
+      },
+      colors: {
+        accent: {
+          pink: "#ff6b9d",
+          purple: "#c084fc",
+          cyan: "#22d3ee",
+        },
+      },
+      animation: {
+        "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
     },
   },

@@ -10,6 +10,15 @@ Run the dev server:
 npm run dev
 ```
 
+## Installing private @minamorl packages
+
+This repo uses GitHub Packages for the `@minamorl/*` scope.
+
+- Set `NPM_TOKEN` to a GitHub Personal Access Token (PAT) with **read:packages**
+- Then run `npm install`
+
+Vercel: add `NPM_TOKEN` as an environment variable.
+
 ## Deployment
 
 First, build your app for production:

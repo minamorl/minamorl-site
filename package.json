@@ -1,34 +1,44 @@
 {
-  "name": "",
+  "name": "minamorl-site",
   "private": true,
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "remix vite:build",
-    "dev": "remix vite:dev",
-    "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-    "start": "remix-serve ./build/server/index.js",
-    "typecheck": "tsc"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "postinstall": "node scripts/build-markdown-next.mjs"
   },
   "dependencies": {
-    "@react-spring/web": "^9.7.5",
-    "@remix-run/node": "^2.17.1",
-    "@remix-run/react": "^2.17.1",
-    "@remix-run/serve": "^2.17.1",
+    "@minamorl/cray": "https://npm.pkg.github.com/download/@minamorl/cray/1.0.0/bd44b7ca5829b791082dd8b4fc1f7e05d5a8a594",
+    "@minamorl/lay": "https://npm.pkg.github.com/download/@minamorl/lay/0.0.1/516c16949ff17ed2a95784bdb2758d03abcf03dc",
+    "@minamorl/root-core": "https://npm.pkg.github.com/download/@minamorl/root-core/0.0.1/005697c7e55b58364a833cdc32b60f02f0e333e9",
+    "@minamorl/root-ui": "https://npm.pkg.github.com/download/@minamorl/root-ui/0.1.0/bde9aa0d13be5ad9e41f3a79b61d310e95cd0a0c",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.5.0",
+    "@react-three/postprocessing": "^3.0.4",
     "caniuse-lite": "^1.0.30001743",
+    "gsap": "^3.14.2",
     "isbot": "^4.4.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "markdown-next": "https://codeload.github.com/minamorl/markdown-next/tar.gz/main",
+    "next": "^15.2.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "three": "^0.183.2"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@remix-run/dev": "^2.17.1",
-    "@types/react": "^18.3.24",
-    "@types/react-dom": "^18.3.7",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/three": "^0.183.1",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "autoprefixer": "^10.4.21",
     "eslint": "^8.57.1",
+    "eslint-config-next": "^15.2.0",
     "eslint-import-resolver-typescript": "^3.10.1",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -37,8 +47,7 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.9.2",
-    "vite": "^5.4.20",
-    "vite-tsconfig-paths": "^4.3.2"
+    "vite": "^5.4.20"
   },
   "engines": {
     "node": ">=20.0.0"
