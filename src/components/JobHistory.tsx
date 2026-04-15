@@ -39,14 +39,14 @@ export default function JobHistory() {
       {jobs.map((job, index) => (
         <div
           key={index}
-          className="group relative p-6 rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm hover:border-white/[0.12] transition-all duration-500"
+          className="group relative p-4 md:p-6 rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm hover:border-white/[0.12] transition-all duration-500"
         >
           {/* Accent line */}
           <div className="absolute left-0 top-6 bottom-6 w-px bg-gradient-to-b from-pink-500/50 via-purple-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-4">
             <div>
-              <h4 className="text-lg font-semibold text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-pink-400 group-hover:to-purple-400 group-hover:bg-clip-text transition-all duration-300">
+              <h4 className="text-base md:text-lg font-semibold text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-pink-400 group-hover:to-purple-400 group-hover:bg-clip-text transition-all duration-300 break-words">
                 {job.company}
               </h4>
               <p className="text-sm text-gray-400 mt-0.5">{job.role}</p>

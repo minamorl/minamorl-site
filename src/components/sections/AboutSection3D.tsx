@@ -106,7 +106,7 @@ export default function AboutSection3D() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative min-h-screen py-24 px-4 md:px-8"
+      className="relative min-h-screen py-16 px-5 md:py-24 md:px-8 overflow-hidden"
       style={{
         zIndex: 10,
         position: 'relative',
@@ -128,17 +128,17 @@ export default function AboutSection3D() {
         {/* Section heading */}
         <h2
           ref={headingRef}
-          className="text-4xl md:text-6xl font-bold mb-16 tracking-tight"
+          className="text-3xl md:text-6xl font-bold mb-10 md:mb-16 tracking-tight"
         >
-          <span className="bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent inline-block">
             About
           </span>
         </h2>
 
         {/* Bio cards */}
-        <div ref={bioRef} className="space-y-6 mb-20">
-          <div className="bio-card group p-6 rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm hover:border-white/[0.12] transition-all duration-500">
-            <p className="text-gray-300 text-lg leading-relaxed">
+        <div ref={bioRef} className="space-y-4 md:space-y-6 mb-12 md:mb-20">
+          <div className="bio-card group p-4 md:p-6 rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm hover:border-white/[0.12] transition-all duration-500">
+            <p className="text-gray-300 text-base md:text-lg leading-relaxed break-words">
               Tokyo-based software engineer focused on building{" "}
               <span className="text-white font-medium">developer tools</span>,{" "}
               <span className="text-white font-medium">infrastructure</span>, and{" "}
@@ -146,14 +146,14 @@ export default function AboutSection3D() {
             </p>
           </div>
 
-          <div className="bio-card group p-6 rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm hover:border-white/[0.12] transition-all duration-500">
-            <p className="text-gray-300 text-lg leading-relaxed">
+          <div className="bio-card group p-4 md:p-6 rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm hover:border-white/[0.12] transition-all duration-500">
+            <p className="text-gray-300 text-base md:text-lg leading-relaxed break-words">
               Passionate about functional programming, type systems, and making complex systems simple.
               I believe in the power of abstraction and composability.
             </p>
           </div>
 
-          <div className="bio-card p-6 rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm">
+          <div className="bio-card p-4 md:p-6 rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm">
             <SocialLinks />
           </div>
         </div>
