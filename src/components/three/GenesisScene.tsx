@@ -166,11 +166,11 @@ function buildParticleAttribs(count: number): ParticleAttribs {
 
   const rng = createRng(42);
 
-  // Palette
-  const cyan    = [0.0, 1.0, 1.0];
-  const magenta = [1.0, 0.0, 1.0];
-  const blue    = [0.27, 0.27, 1.0];
-  const white   = [1.0, 1.0, 1.0];
+  // Palette (toned down to avoid bloom white-out)
+  const cyan    = [0.0, 0.6, 0.65];
+  const magenta = [0.65, 0.0, 0.6];
+  const blue    = [0.2, 0.2, 0.7];
+  const white   = [0.55, 0.55, 0.6];
 
   let idx = 0;
 
@@ -269,6 +269,11 @@ function buildParticleAttribs(count: number): ParticleAttribs {
 function CameraRig({ progress }: { progress: React.MutableRefObject<number> }) {
   const { camera, size } = useThree();
   const isMobile = size.width < 768;
+  // Camera distances tuned to text scale:
+  //   Desktop: scale=10 → cam z=12, fov=50
+  //   Mobile:  scale=3.0 → cam z=8, fov=55 (closer + wider to fill screen)
+  const revealZ = isMobile ? 8 : 12;
+  const revealFov = isMobile ? 55 : 50;
 
   const curPos    = useRef(new THREE.Vector3(0, 0, 80));
   const curTarget = useRef(new THREE.Vector3(0, 0, 0));
@@ -383,10 +388,10 @@ function CameraRig({ progress }: { progress: React.MutableRefObject<number> }) {
       const te = easeOutExpo(t);
 
       const startPos = new THREE.Vector3(0.3, 0.1, 2.5);
-      const endPos   = new THREE.Vector3(0, 0.3, isMobile ? 18 : 12);
+      const endPos   = new THREE.Vector3(0, 0.3, revealZ);
       const goalPos  = new THREE.Vector3().lerpVectors(startPos, endPos, te);
       const goalLook = new THREE.Vector3(0, 0, 0);
-      const goalFov  = THREE.MathUtils.lerp(32, isMobile ? 60 : 50, te);
+      const goalFov  = THREE.MathUtils.lerp(32, revealFov, te);
 
       curPos.current.lerp(goalPos, 0.45);
       curTarget.current.lerp(goalLook, 0.45);
@@ -397,10 +402,10 @@ function CameraRig({ progress }: { progress: React.MutableRefObject<number> }) {
       const goalPos = new THREE.Vector3(
         Math.sin(time * 0.5) * 0.3,
         Math.cos(time * 0.4) * 0.2 + 0.3,
-        (isMobile ? 18 : 12) + Math.sin(time * 0.6) * 0.2,
+        revealZ + Math.sin(time * 0.6) * 0.2,
       );
       const goalLook = new THREE.Vector3(0, 0, 0);
-      const goalFov = isMobile ? 60 : 50;
+      const goalFov = revealFov;
 
       const stiffness = 1.5;
       const damping   = 0.93;
@@ -425,10 +430,10 @@ function CameraRig({ progress }: { progress: React.MutableRefObject<number> }) {
       const goalPos = new THREE.Vector3(
         Math.sin(t * Math.PI * 2) * (1 - te) * 2,
         Math.cos(t * Math.PI * 2) * (1 - te) * 1.5,
-        THREE.MathUtils.lerp(isMobile ? 18 : 12, 1.5, te),
+        THREE.MathUtils.lerp(revealZ, 1.5, te),
       );
       const goalLook = new THREE.Vector3(0, 0, THREE.MathUtils.lerp(0, -5, te));
-      const goalFov = THREE.MathUtils.lerp(isMobile ? 60 : 50, 130, te);
+      const goalFov = THREE.MathUtils.lerp(revealFov, 130, te);
 
       curPos.current.lerp(goalPos, 0.25);
       curTarget.current.lerp(goalLook, 0.25);
@@ -463,11 +468,23 @@ export default function GenesisScene({
 
   const textPositions = useMemo(() => {
     if (typeof document === "undefined") return new Float32Array(PARTICLE_COUNT * 3);
-    // Reduce scale on mobile - base scale is 10 for desktop (~1200px+)
-    // For mobile (~400px), use scale ~5.5
-    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-    const baseScale = isMobile ? 5.5 : 10;
-    return generateTextPositions(text, PARTICLE_COUNT, 512, 128, baseScale);
+    const w = typeof window !== "undefined" ? window.innerWidth : 1200;
+    // Scale text to fit viewport:
+    //   Mobile  (<500px):  scale 3.0  — compact enough to read
+    //   Tablet  (<768px):  scale 4.5
+    //   Desktop (>=768px): scale 10
+    let baseScale: number;
+    if (w < 500) {
+      baseScale = 3.0;
+    } else if (w < 768) {
+      baseScale = 4.5;
+    } else {
+      baseScale = 10;
+    }
+    // Use wider canvas for mobile to increase font resolution per character
+    const canvasW = w < 768 ? 640 : 512;
+    const canvasH = w < 768 ? 128 : 128;
+    return generateTextPositions(text, PARTICLE_COUNT, canvasW, canvasH, baseScale);
   }, [text]);
 
   // ── Mutable simulation state (never re-allocated) ────────────────────────

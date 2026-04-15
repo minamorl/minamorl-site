@@ -34,9 +34,9 @@ export default function GenesisCanvas({ progress }: GenesisCanvasProps) {
           <GenesisScene progress={progress} text="minamorl" />
           <EffectComposer>
             <Bloom
-              luminanceThreshold={0.1}
-              luminanceSmoothing={0.9}
-              intensity={1.8}
+              luminanceThreshold={0.4}
+              luminanceSmoothing={0.6}
+              intensity={0.8}
               mipmapBlur
             />
             <Noise
