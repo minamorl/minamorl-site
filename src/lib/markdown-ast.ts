@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Parser, asAST } from "markdown-next";
+import { Parser, asAST } from "@minamorl/markdown-next";
 
 export type MarkdownAst =
   | string

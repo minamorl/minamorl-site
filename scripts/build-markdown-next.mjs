@@ -16,11 +16,11 @@ function exists(p) {
 const pkgJsonPath = (() => {
   try {
     // eslint-disable-next-line n/no-unsupported-features/node-builtins
-    return fileURLToPath(new URL("package.json", import.meta.resolve("markdown-next/")));
+    return fileURLToPath(new URL("package.json", import.meta.resolve("@minamorl/markdown-next/")));
   } catch {
     // Fallback: Node doesn't support import.meta.resolve in some contexts.
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const resolved = require.resolve("markdown-next/package.json");
+    const resolved = require.resolve("@minamorl/markdown-next/package.json");
     return resolved;
   }
 })();
@@ -30,7 +30,7 @@ const originalTsconfigPath = join(pkgRoot, "tsconfig.json");
 
 if (!exists(originalTsconfigPath)) {
   throw new Error(
-    `markdown-next tsconfig.json not found at ${originalTsconfigPath}. ` +
+    `@minamorl/markdown-next tsconfig.json not found at ${originalTsconfigPath}. ` +
       `Package root resolved to ${pkgRoot}`,
   );
 }
@@ -59,5 +59,3 @@ try {
   // Clean up the temporary tsconfig
   fs.unlinkSync(buildTsconfigPath);
 }
-
-
