@@ -1,0 +1,48 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@minamorl'
+      
+      - name: Install dependencies
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+      
+      - name: Build
+        run: npm run build
+      
+      - name: Setup Tailscale
+        uses: tailscale/github-action@v3
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+      
+      - name: Deploy to Pi
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.PI_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H 100.101.154.92 >> ~/.ssh/known_hosts 2>/dev/null
+          
+          # Sync build artifacts
+          rsync -avz --delete .next/ minamorl@100.101.154.92:/home/minamorl/repos/minamorl-site/.next/
+          rsync -avz package.json minamorl@100.101.154.92:/home/minamorl/repos/minamorl-site/package.json
+          rsync -avz --delete public/ minamorl@100.101.154.92:/home/minamorl/repos/minamorl-site/public/ 2>/dev/null || true
+          rsync -avz next.config.* minamorl@100.101.154.92:/home/minamorl/repos/minamorl-site/ 2>/dev/null || true
+          
+          # Install production deps and restart
+          ssh minamorl@100.101.154.92 'cd /home/minamorl/repos/minamorl-site && npm ci --production && sudo systemctl restart minamorl-site'
