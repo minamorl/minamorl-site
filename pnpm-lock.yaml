@@ -4,29 +4,25 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  '@minamorl/root-core': file:/Users/minamorl/repos/root-paradigm/packages/core
-  '@minamorl/root-ui': file:/Users/minamorl/repos/root-paradigm/packages/ui
-  '@minamorl/cray': file:/Users/minamorl/repos/root-paradigm/packages/cray
-  '@minamorl/lay': file:/Users/minamorl/repos/root-paradigm/packages/lay
-  markdown-next: file:/Users/minamorl/repos/markdown-next
-
 importers:
 
   .:
     dependencies:
       '@minamorl/cray':
-        specifier: file:/Users/minamorl/repos/root-paradigm/packages/cray
-        version: file:../root-paradigm/packages/cray(react@19.2.5)
+        specifier: ^1.0.3
+        version: 1.0.3(react@19.2.5)
       '@minamorl/lay':
-        specifier: file:/Users/minamorl/repos/root-paradigm/packages/lay
-        version: file:../root-paradigm/packages/lay(react@19.2.5)
+        specifier: ^0.0.2
+        version: 0.0.2(react@19.2.5)
+      '@minamorl/markdown-next':
+        specifier: ^2.2.3
+        version: 2.2.3
       '@minamorl/root-core':
-        specifier: file:/Users/minamorl/repos/root-paradigm/packages/core
-        version: file:../root-paradigm/packages/core
+        specifier: ^0.0.2
+        version: 0.0.2
       '@minamorl/root-ui':
-        specifier: file:/Users/minamorl/repos/root-paradigm/packages/ui
-        version: file:../root-paradigm/packages/ui(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+        specifier: ^3.1.0
+        version: 3.1.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@react-three/drei':
         specifier: ^10.7.7
         version: 10.7.7(@react-three/fiber@9.6.0(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(three@0.183.2))(@types/react@19.2.14)(@types/three@0.183.1)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(three@0.183.2)
@@ -45,9 +41,6 @@ importers:
       isbot:
         specifier: ^4.4.0
         version: 4.4.0
-      markdown-next:
-        specifier: file:/Users/minamorl/repos/markdown-next
-        version: '@minamorl/markdown-next@file:../markdown-next'
       next:
         specifier: ^15.2.0
         version: 15.5.15(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
@@ -536,25 +529,22 @@ packages:
   '@mediapipe/tasks-vision@0.10.17':
     resolution: {integrity: sha512-CZWV/q6TTe8ta61cZXjfnnHsfWIdFhms03M9T7Cnd5y2mdpylJM0rF1qRq+wsQVRMLz1OYPVEBU9ph2Bx8cxrg==}
 
-  '@minamorl/cray@file:../root-paradigm/packages/cray':
-    resolution: {directory: ../root-paradigm/packages/cray, type: directory}
+  '@minamorl/cray@1.0.3':
+    resolution: {integrity: sha512-Ge6T1FguzkmGEzvXAFteQsIi0/b3x4r3YZ/UUbGRtNFNGF6ro7nTaUdkwy7IDi8hF/awD/t13KG3CYw1lUPQ1A==, tarball: https://npm.pkg.github.com/download/@minamorl/cray/1.0.3/a932f572f6983e2a656710d0c250949f657f150d}
 
-  '@minamorl/lay@file:../root-paradigm/packages/lay':
-    resolution: {directory: ../root-paradigm/packages/lay, type: directory}
+  '@minamorl/lay@0.0.2':
+    resolution: {integrity: sha512-e8D5wmjasij5LCnW4gCdGmyec42hY7Npp1wQxzpnc3pd6rLM99Gpd2Zd82+RduuoMiXxo3N7fEW5Hs6zf4LwMQ==, tarball: https://npm.pkg.github.com/download/@minamorl/lay/0.0.2/a37c09fcfa4a6d73a4d70c842daa6f067d002426}
     peerDependencies:
       react: ^18.0.0
-    peerDependenciesMeta:
-      react:
-        optional: true
 
-  '@minamorl/markdown-next@file:../markdown-next':
-    resolution: {directory: ../markdown-next, type: directory}
+  '@minamorl/markdown-next@2.2.3':
+    resolution: {integrity: sha512-HRNBfpDWqXqr3TZ0ZoV3eB15kxtquWf9Hl4qJ1dAoiS52DxXJN2WMcq3RzeD15ufLJ1+tJxF1u7kot+gtINS9Q==, tarball: https://npm.pkg.github.com/download/@minamorl/markdown-next/2.2.3/0a9cfd07d2308c7291d24068f353441a8f6da2c3}
 
-  '@minamorl/root-core@file:../root-paradigm/packages/core':
-    resolution: {directory: ../root-paradigm/packages/core, type: directory}
+  '@minamorl/root-core@0.0.2':
+    resolution: {integrity: sha512-9NkcqwkYoq2BdxeytoWK4NmFtSEmuxEiVF3DT4GGy7epfsYKYq7IFpqgYR6m44+RIca+mUwIVFP9SqkEf4ilXQ==, tarball: https://npm.pkg.github.com/download/@minamorl/root-core/0.0.2/885e18dc9190acbb93378ecef2af03848d8e59c6}
 
-  '@minamorl/root-ui@file:../root-paradigm/packages/ui':
-    resolution: {directory: ../root-paradigm/packages/ui, type: directory}
+  '@minamorl/root-ui@3.1.0':
+    resolution: {integrity: sha512-NB1uoTi3W6eK91NGBelAuy+JoF7+qQn+vVa+nipkXEX7l750V+cJNitcZw9HM4bxrMKs8nlw4w3QYpD5th5znQ==, tarball: https://npm.pkg.github.com/download/@minamorl/root-ui/3.1.0/8042f435a905c6c68c41b944439e747d53db6240}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
@@ -2918,28 +2908,28 @@ snapshots:
 
   '@mediapipe/tasks-vision@0.10.17': {}
 
-  '@minamorl/cray@file:../root-paradigm/packages/cray(react@19.2.5)':
+  '@minamorl/cray@1.0.3(react@19.2.5)':
     dependencies:
-      '@minamorl/lay': file:../root-paradigm/packages/lay(react@19.2.5)
-      '@minamorl/root-core': file:../root-paradigm/packages/core
+      '@minamorl/lay': 0.0.2(react@19.2.5)
+      '@minamorl/root-core': 0.0.2
     transitivePeerDependencies:
       - react
 
-  '@minamorl/lay@file:../root-paradigm/packages/lay(react@19.2.5)':
-    optionalDependencies:
+  '@minamorl/lay@0.0.2(react@19.2.5)':
+    dependencies:
       react: 19.2.5
 
-  '@minamorl/markdown-next@file:../markdown-next':
+  '@minamorl/markdown-next@2.2.3':
     dependencies:
       '@types/parsimmon': 1.10.9
       parsimmon: 1.18.1
 
-  '@minamorl/root-core@file:../root-paradigm/packages/core':
+  '@minamorl/root-core@0.0.2':
     dependencies:
       ts-pattern: 5.9.0
       zod: 3.25.76
 
-  '@minamorl/root-ui@file:../root-paradigm/packages/ui(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+  '@minamorl/root-ui@3.1.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
     dependencies:
       react: 19.2.5
       react-dom: 19.2.5(react@19.2.5)

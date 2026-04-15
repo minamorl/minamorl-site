@@ -20,14 +20,14 @@ export default function AboutSection3D() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Heading animation
+      // Heading animation — no x offset to prevent mobile clipping
       if (headingRef.current) {
         gsap.fromTo(
           headingRef.current,
-          { opacity: 0, x: -60 },
+          { opacity: 0, y: 30 },
           {
             opacity: 1,
-            x: 0,
+            y: 0,
             duration: 1,
             ease: "power3.out",
             scrollTrigger: {
@@ -81,9 +81,12 @@ export default function AboutSection3D() {
       }
     }, sectionRef);
 
-    // Fallback: if ScrollTrigger hasn't fired after 3s, force all visible
+    // Fallback: if ScrollTrigger hasn't fired after 2s, force all visible
     const fallbackTimer = setTimeout(() => {
-      if (headingRef.current) headingRef.current.style.opacity = "1";
+      if (headingRef.current) {
+        headingRef.current.style.opacity = "1";
+        headingRef.current.style.transform = "none";
+      }
       if (bioRef.current) {
         bioRef.current.querySelectorAll(".bio-card").forEach((el) => {
           (el as HTMLElement).style.opacity = "1";
@@ -94,7 +97,7 @@ export default function AboutSection3D() {
         jobRef.current.style.opacity = "1";
         jobRef.current.style.transform = "none";
       }
-    }, 3000);
+    }, 2000);
 
     return () => {
       clearTimeout(fallbackTimer);
@@ -128,9 +131,9 @@ export default function AboutSection3D() {
         {/* Section heading */}
         <h2
           ref={headingRef}
-          className="text-3xl md:text-6xl font-bold mb-10 md:mb-16 tracking-tight"
+          className="text-3xl md:text-6xl font-bold mb-10 md:mb-16 tracking-tight text-left"
         >
-          <span className="bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent inline-block">
+          <span className="bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
             About
           </span>
         </h2>
