@@ -88,7 +88,8 @@ export default function AboutSection3D() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative min-h-screen py-24 px-4 md:px-8"
+      className="relative min-h-screen py-24 px-4 md:px-8 bg-black"
+      style={{ zIndex: 2, position: 'relative' }}
     >
       {/* Subtle grid pattern overlay */}
       <div

@@ -12,17 +12,17 @@
     "postinstall": "node scripts/build-markdown-next.mjs"
   },
   "dependencies": {
-    "@minamorl/cray": "https://npm.pkg.github.com/download/@minamorl/cray/1.0.0/bd44b7ca5829b791082dd8b4fc1f7e05d5a8a594",
-    "@minamorl/lay": "https://npm.pkg.github.com/download/@minamorl/lay/0.0.1/516c16949ff17ed2a95784bdb2758d03abcf03dc",
-    "@minamorl/root-core": "https://npm.pkg.github.com/download/@minamorl/root-core/0.0.1/005697c7e55b58364a833cdc32b60f02f0e333e9",
-    "@minamorl/root-ui": "https://npm.pkg.github.com/download/@minamorl/root-ui/0.1.0/bde9aa0d13be5ad9e41f3a79b61d310e95cd0a0c",
+    "@minamorl/cray": "file:/Users/minamorl/repos/root-paradigm/packages/cray",
+    "@minamorl/lay": "file:/Users/minamorl/repos/root-paradigm/packages/lay",
+    "@minamorl/root-core": "file:/Users/minamorl/repos/root-paradigm/packages/core",
+    "@minamorl/root-ui": "file:/Users/minamorl/repos/root-paradigm/packages/ui",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.5.0",
     "@react-three/postprocessing": "^3.0.4",
     "caniuse-lite": "^1.0.30001743",
     "gsap": "^3.14.2",
     "isbot": "^4.4.0",
-    "markdown-next": "https://codeload.github.com/minamorl/markdown-next/tar.gz/main",
+    "markdown-next": "file:/Users/minamorl/repos/markdown-next",
     "next": "^15.2.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -51,5 +51,17 @@
   },
   "engines": {
     "node": ">=20.0.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@minamorl/markdown-next"
+    ],
+    "overrides": {
+      "@minamorl/root-core": "file:/Users/minamorl/repos/root-paradigm/packages/core",
+      "@minamorl/root-ui": "file:/Users/minamorl/repos/root-paradigm/packages/ui",
+      "@minamorl/cray": "file:/Users/minamorl/repos/root-paradigm/packages/cray",
+      "@minamorl/lay": "file:/Users/minamorl/repos/root-paradigm/packages/lay",
+      "markdown-next": "file:/Users/minamorl/repos/markdown-next"
+    }
   }
 }

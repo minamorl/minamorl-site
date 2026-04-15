@@ -24,23 +24,52 @@ export default function HomePage() {
   const [showSubtext, setShowSubtext] = useState(false);
 
   // Genesis animation timeline
+  // Total: 2 seconds — everything happens FAST
+  // Phase map (progress → time):
+  //   0.000–0.075  Cut 1: Wide establishing (0.15s)
+  //   0.075–0.175  Cut 2: Diagonal hard cut (0.20s)
+  //   0.175–0.575  Cut 3: Convergence rush (1.15s)
+  //   0.575–0.675  Cut 4: Pull-back reveal (0.20s)
+  //   0.675–0.720  Cut 5: Float + subtitle (0.30s)
+  //   0.720–1.000  Cut 6: Collapse (scroll-driven)
   useEffect(() => {
-    const tl = gsap.timeline({ delay: 0.5 });
+    const tl = gsap.timeline({ delay: 0 });
 
-    // BLACK → dot → dots → triangle → mesh → logo
+    // Cut 1: Wide establishing shot (0.15s)
     tl.to(progress, {
-      current: 0.65,
-      duration: 6,
-      ease: "power2.inOut",
+      current: 0.075,
+      duration: 0.15,
+      ease: "power1.inOut",
     });
 
-    // Show subtext after logo forms
-    tl.call(() => setShowSubtext(true), [], "-=0.5");
-
-    // Hold at float phase — scroll will take over from here
+    // Cut 2: Diagonal slash hard cut (0.20s)
     tl.to(progress, {
-      current: 0.70,
-      duration: 2,
+      current: 0.175,
+      duration: 0.20,
+      ease: "power1.inOut",
+    });
+
+    // Cut 3: Convergence rush — x² easing, camera dives into text (1.15s)
+    tl.to(progress, {
+      current: 0.575,
+      duration: 1.15,
+      ease: "power2.in",
+    });
+
+    // Cut 4: Pull-back reveal (0.20s)
+    tl.to(progress, {
+      current: 0.675,
+      duration: 0.20,
+      ease: "power2.out",
+    });
+
+    // Show subtext at start of pull-back
+    tl.call(() => setShowSubtext(true), [], "-=0.15");
+
+    // Cut 5: Float / breathe (0.15s)
+    tl.to(progress, {
+      current: 0.72,
+      duration: 0.15,
       ease: "sine.inOut",
     });
 
@@ -55,12 +84,12 @@ export default function HomePage() {
       gsap.fromTo(
         subtextRef.current,
         { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }
+        { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" }
       );
     }
   }, [showSubtext]);
 
-  // Scroll-driven collapse at the bottom
+  // Scroll-driven collapse: 0.60 → 1.0
   useEffect(() => {
     if (!endRef.current) return;
 
@@ -71,8 +100,8 @@ export default function HomePage() {
         end: "bottom bottom",
         scrub: 1,
         onUpdate: (self) => {
-          // Map scroll progress to collapse phase (0.85 → 1.0)
-          progress.current = 0.70 + self.progress * 0.30;
+          // Map scroll progress to collapse phase (0.72 → 1.0)
+          progress.current = 0.72 + self.progress * 0.28;
         },
       });
     });
@@ -85,7 +114,8 @@ export default function HomePage() {
       {/* ===== HERO: Genesis sequence ===== */}
       <section
         ref={heroRef}
-        className="relative w-full h-screen"
+        className="relative w-full h-screen overflow-hidden"
+        style={{ zIndex: 1 }}
       >
         <GenesisCanvas progress={progress} />
 
@@ -121,6 +151,7 @@ export default function HomePage() {
       <section
         ref={endRef}
         className="relative h-[60vh]"
+        style={{ zIndex: 1 }}
         aria-hidden="true"
       >
         {/* This empty space triggers the scroll-driven collapse.
