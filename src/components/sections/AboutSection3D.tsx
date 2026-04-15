@@ -32,7 +32,7 @@ export default function AboutSection3D() {
             ease: "power3.out",
             scrollTrigger: {
               trigger: headingRef.current,
-              start: "top 80%",
+              start: "top 90%",
               end: "top 50%",
               toggleActions: "play none none reverse",
             },
@@ -54,7 +54,7 @@ export default function AboutSection3D() {
             ease: "power2.out",
             scrollTrigger: {
               trigger: bioRef.current,
-              start: "top 75%",
+              start: "top 90%",
               toggleActions: "play none none reverse",
             },
           }
@@ -73,7 +73,7 @@ export default function AboutSection3D() {
             ease: "power2.out",
             scrollTrigger: {
               trigger: jobRef.current,
-              start: "top 80%",
+              start: "top 90%",
               toggleActions: "play none none reverse",
             },
           }
@@ -81,15 +81,38 @@ export default function AboutSection3D() {
       }
     }, sectionRef);
 
-    return () => ctx.revert();
+    // Fallback: if ScrollTrigger hasn't fired after 3s, force all visible
+    const fallbackTimer = setTimeout(() => {
+      if (headingRef.current) headingRef.current.style.opacity = "1";
+      if (bioRef.current) {
+        bioRef.current.querySelectorAll(".bio-card").forEach((el) => {
+          (el as HTMLElement).style.opacity = "1";
+          (el as HTMLElement).style.transform = "none";
+        });
+      }
+      if (jobRef.current) {
+        jobRef.current.style.opacity = "1";
+        jobRef.current.style.transform = "none";
+      }
+    }, 3000);
+
+    return () => {
+      clearTimeout(fallbackTimer);
+      ctx.revert();
+    };
   }, []);
 
   return (
     <section
       id="about"
       ref={sectionRef}
-      className="relative min-h-screen py-24 px-4 md:px-8 bg-black"
-      style={{ zIndex: 2, position: 'relative' }}
+      className="relative min-h-screen py-24 px-4 md:px-8"
+      style={{
+        zIndex: 10,
+        position: 'relative',
+        backgroundColor: '#000000',
+        isolation: 'isolate',
+      }}
     >
       {/* Subtle grid pattern overlay */}
       <div
