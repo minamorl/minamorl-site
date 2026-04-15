@@ -1,13 +1,7 @@
 "use client";
 
-import { Suspense, useRef, useCallback, useEffect } from "react";
+import { Suspense, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
-import {
-  EffectComposer,
-  Bloom,
-  Noise,
-} from "@react-three/postprocessing";
-import { BlendFunction } from "postprocessing";
 import GenesisScene from "./GenesisScene";
 
 interface GenesisCanvasProps {
@@ -32,18 +26,6 @@ export default function GenesisCanvas({ progress }: GenesisCanvasProps) {
         <Suspense fallback={null}>
           <color attach="background" args={["#000000"]} />
           <GenesisScene progress={progress} text="minamorl" />
-          <EffectComposer>
-            <Bloom
-              luminanceThreshold={0.4}
-              luminanceSmoothing={0.6}
-              intensity={0.8}
-              mipmapBlur
-            />
-            <Noise
-              blendFunction={BlendFunction.SOFT_LIGHT}
-              opacity={0.08}
-            />
-          </EffectComposer>
         </Suspense>
       </Canvas>
     </div>

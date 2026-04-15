@@ -115,7 +115,7 @@ export default function HomePage() {
       <section
         ref={heroRef}
         className="relative w-full h-screen overflow-hidden"
-        style={{ zIndex: 1 }}
+        style={{ zIndex: 0, position: 'relative' }}
       >
         <GenesisCanvas progress={progress} />
 
@@ -151,7 +151,7 @@ export default function HomePage() {
       <section
         ref={endRef}
         className="relative h-[60vh]"
-        style={{ zIndex: 1 }}
+        style={{ zIndex: 2, position: 'relative' }}
         aria-hidden="true"
       >
         {/* This empty space triggers the scroll-driven collapse.

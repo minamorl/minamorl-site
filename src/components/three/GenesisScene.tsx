@@ -166,11 +166,11 @@ function buildParticleAttribs(count: number): ParticleAttribs {
 
   const rng = createRng(42);
 
-  // Palette (toned down to avoid bloom white-out)
-  const cyan    = [0.0, 0.6, 0.65];
-  const magenta = [0.65, 0.0, 0.6];
-  const blue    = [0.2, 0.2, 0.7];
-  const white   = [0.55, 0.55, 0.6];
+  // Palette — clean, vivid colours (no bloom, NormalBlending)
+  const cyan    = [0.0, 0.85, 0.9];
+  const magenta = [0.9, 0.0, 0.85];
+  const blue    = [0.3, 0.3, 1.0];
+  const white   = [0.85, 0.85, 0.9];
 
   let idx = 0;
 
@@ -272,8 +272,8 @@ function CameraRig({ progress }: { progress: React.MutableRefObject<number> }) {
   // Camera distances tuned to text scale:
   //   Desktop: scale=10 → cam z=12, fov=50
   //   Mobile:  scale=3.0 → cam z=8, fov=55 (closer + wider to fill screen)
-  const revealZ = isMobile ? 8 : 12;
-  const revealFov = isMobile ? 55 : 50;
+  const revealZ = isMobile ? 7 : 12;
+  const revealFov = isMobile ? 50 : 50;
 
   const curPos    = useRef(new THREE.Vector3(0, 0, 80));
   const curTarget = useRef(new THREE.Vector3(0, 0, 0));
@@ -474,16 +474,17 @@ export default function GenesisScene({
     //   Tablet  (<768px):  scale 4.5
     //   Desktop (>=768px): scale 10
     let baseScale: number;
-    if (w < 500) {
-      baseScale = 3.0;
+    if (w < 400) {
+      baseScale = 2.2;
+    } else if (w < 500) {
+      baseScale = 2.8;
     } else if (w < 768) {
-      baseScale = 4.5;
+      baseScale = 4.0;
     } else {
       baseScale = 10;
     }
-    // Use wider canvas for mobile to increase font resolution per character
-    const canvasW = w < 768 ? 640 : 512;
-    const canvasH = w < 768 ? 128 : 128;
+    const canvasW = 640;
+    const canvasH = 128;
     return generateTextPositions(text, PARTICLE_COUNT, canvasW, canvasH, baseScale);
   }, [text]);
 
@@ -733,7 +734,7 @@ export default function GenesisScene({
           transparent
           opacity={0.9}
           depthWrite={false}
-          blending={THREE.AdditiveBlending}
+          blending={THREE.NormalBlending}
           size={0.08}
         />
       </points>
